@@ -51,15 +51,15 @@ class Mainprocessor {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-        if (curl_exec($ch) === false) {
+         $content = curl_exec($ch);
+        if ($content === false) {
             $error = curl_error($ch);
             curl_close($ch);
             throw new Exception('Curl error in url : ' . $url . " " . $error);
         } else {
-            $content = curl_exec($ch);
+            curl_close($ch);
+            return $content;
         }
-        $headers = get_headers($url);
-        return $content;
     }
 
     protected function createParamArray($params) {
